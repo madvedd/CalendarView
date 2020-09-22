@@ -1,6 +1,7 @@
 package com.kizitonwose.calendarviewsample
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -47,7 +48,11 @@ class Example2Fragment : BaseFragment(R.layout.example_2_fragment), HasToolbar, 
             }
         }
 
-        binding.exTwoCalendar.setup(YearMonth.now(), YearMonth.now().plusMonths(10), daysOfWeek.first())
+        binding.exTwoCalendar.setup(
+            YearMonth.now(),
+            YearMonth.now().plusMonths(10),
+            daysOfWeek.first()
+        )
 
         class DayViewContainer(view: View) : ViewContainer(view) {
             // Will be set when this container is bound. See the dayBinder.
@@ -56,7 +61,7 @@ class Example2Fragment : BaseFragment(R.layout.example_2_fragment), HasToolbar, 
 
             init {
                 textView.setOnClickListener {
-                    if (day.owner == DayOwner.THIS_MONTH) {
+                    if (day.date >= today && day.owner == DayOwner.THIS_MONTH) {
                         if (selectedDate == day.date) {
                             selectedDate = null
                             binding.exTwoCalendar.notifyDayChanged(day)
@@ -88,10 +93,17 @@ class Example2Fragment : BaseFragment(R.layout.example_2_fragment), HasToolbar, 
                         }
                         today -> {
                             textView.setTextColorRes(R.color.example_2_red)
+                            textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                             textView.background = null
                         }
                         else -> {
-                            textView.setTextColorRes(R.color.example_2_black)
+                            if (day.date < today) {
+                                textView.setTextColorRes(R.color.example_2_black_light)
+                                textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                            } else {
+                                textView.setTextColorRes(R.color.example_2_black)
+                                textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                            }
                             textView.background = null
                         }
                     }

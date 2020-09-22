@@ -10,6 +10,7 @@
     <color name="example_1_white_light">#4DFFFFFF</color>
     <color name="example_1_white">#D9FFFFFF</color>
     <color name="example_2_black">#D9000000</color>
+    <color name="example_2_black_light">#43000000</color>
     <color name="example_2_white">#D9FFFFFF</color>
     <color name="example_2_red">#F44336</color>
     <color name="example_3_black">#D9000000</color>
